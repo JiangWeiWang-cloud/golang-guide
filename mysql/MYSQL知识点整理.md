@@ -210,6 +210,10 @@ B+树为了有序性, 需要对插入和删除数据时做出对应的维护. �
 1. 先计算完整列的选择性 `SELECT COUNT(DISTINCT name)/COUNT(1) FROM t`
 2. 在计算不同前缀长度N的选择性 `SELECT COUNT(DISCTINCT LEFT(name, N)) / COUNT(1) FROM t`
 3. 看哪个N更靠近1, 进行索引的创建
+4. 对 title 字段的前 10 个字符建立索引
+```sql
+CREATE INDEX idx_title_prefix ON articles (title(10));
+```
 
 ### 索引下推
 对于SQL语句 `SELECT * FROM t WHERE name LIKE '陈%' AND age = 10` , INDEX(name, age) 情况来说
