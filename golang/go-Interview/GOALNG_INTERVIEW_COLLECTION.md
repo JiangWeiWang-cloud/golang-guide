@@ -2031,7 +2031,7 @@ Go 语言的垃圾回收机制随着版本的演变不断优化，从早期的�
 
 <font style="color:rgb(31, 35, 40);">STW是Stop The World，指会暂停所有正在执行的用户线程/协程，进行垃圾回收的操作，在这之前会进行一些准备工作，比如开启Write Barrier，把全局变量，以及每个goroutine中的 Root对象 收集起来，Root对象是标记扫描的源头，可以从Root对象依次索引到使用中的对象,STW为垃圾对象的扫描和标记提供了必要的条件。</font>
 
-<font style="color:rgb(31, 35, 40);">每个P都有一个 mcache ，每个 mcache 都有1个Span用来存放 TinyObject，TinyObject 都是不包含指针的对象，所以这些对象可以直接标记为黑色，然后关闭 STW。</font>
+<font style="color:red;">每个P都有一个 mcache ，每个 mcache 都有1个Span用来存放 TinyObject，TinyObject 都是不包含指针的对象，所以这些对象可以直接标记为黑色，然后关闭 STW。</font>
 
 <font style="color:rgb(31, 35, 40);">每个P都有1个进行扫描标记的 goroutine，可以进行并发标记，关闭STW后，这些 goroutine 就变成可运行状态，接收 Go Scheduler 的调度，被调度时执行1轮标记，它负责第1部分任务：栈扫描、标记和标记结束。</font>
 
